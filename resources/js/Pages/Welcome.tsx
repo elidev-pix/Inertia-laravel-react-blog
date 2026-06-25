@@ -4,6 +4,7 @@ import Nav from '@/Components/Nav';
 import {Post} from '@/types/post';
 
 import React from 'react'
+import ListPost from '@/Components/Post/ListPost';
 
 export default function Welcome({ auth, posts, canRegister }: PageProps<{posts: Post[], canRegister: boolean}>) {
   return (
@@ -40,9 +41,17 @@ export default function Welcome({ auth, posts, canRegister }: PageProps<{posts: 
         </div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
-
-            
+            <div className="text-center mb-12">
+                <h2 className="text-3xl font-extrabold text-gray-800">
+                    Articles récents
+                </h2>
+                <p className="mt-3 max-w-2xl mx-auto text-xl">
+                    Les derniers articles publiés par nos utilisateurs
+                </p>
+            </div>
+            <ListPost posts={posts}/>
         </div>
+            
 
       </div> 
       

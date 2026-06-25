@@ -10,7 +10,7 @@ export interface Post{
     title: string;
     description: string;
     image: string | null;
-    craeted_at: string;
+    created_at: string;
     author: Author;
     is_liked: boolean;
     likes_count: number;
