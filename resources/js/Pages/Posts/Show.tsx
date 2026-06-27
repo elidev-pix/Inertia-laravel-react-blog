@@ -1,8 +1,9 @@
 import React from 'react'
-import Nav from "@/components/Nav"
+import Nav from "@/Components/Nav"
 import {ShowProps} from "@/types/post"
 import {Head, Link, router} from "@inertiajs/react"
 import {Heart} from "lucide-react"
+import { Button } from '@/Components/ui/button'
 
 export default function Show({auth, post} : ShowProps) {
 
@@ -25,9 +26,67 @@ export default function Show({auth, post} : ShowProps) {
       }
     }
 
-
+    const canEdit = auth.user?.id === post.user_id
 
   return (
-    <div>Show</div>
+    <div className="min-screen bg-gray-50">
+        <Head title={post.title}/>
+        <Nav />
+        <div className="py-12">
+          <div className="article max-w-4xl mx-auto sm:px-6 lg:px-8">
+            <div className="div bg-white overflow-hidden shadow-md sm:rounded-lg">
+              <div className="div p-6">
+                <div className="div mb-6 flex justify-between items-center">
+                  <Link href="/" className="text-indigo-600 hover:text-indigo-800 transition-colors">
+                    retour
+                  </Link>
+                  {canEdit && (
+                    <div className="div flex-gap-4">
+                      <Link href={route('posts.edit', post.id)} className="text-indigo-600 hover:text-indigo-800 transition-colors">
+                        Modifier
+                      </Link>
+                      <Button onClick={handleDelete} className="text-red-500 hover:text-red-700 transition-colors">
+                        Supprimer
+                      </Button>
+                    </div>
+                  )}
+                </div>
+                {post.image && (
+                  <div className="div mb-8">
+                    <img src={`/storage/${post.image}`} alt={post.title} className="w-full h-96 object-cover rounded-lg" />
+                  </div>
+                )}
+                <h1 className="text-3xl font-bold text-gray-800 mb-4">
+                  {post.title}
+                </h1>
+
+                <div className="flex items-center justify-between text-sm text-gray-500 mb-8">
+                  <div className="flex items-center">
+                    <span>Par {post.author.name} </span>
+                    <span>.</span>
+                    <span>{new Date(post.created_at).toLocaleDateString('fr-FR')}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <button onClick={handleLike} className={`transition-colors ${post.is_liked ? "text-red-600 hover:text-red-700" : "text-gray-500 hover:text-red-700"}`}>
+                      <Heart className="w-6 h-6" fill={post.is_liked ? "currentColor" : "none"}/>
+                    </button>
+
+                    <span className="text-gray-600">
+                      {post.likes_count}
+                    </span>
+                  </div>
+                </div>
+
+                <div className="prose max-w-none">
+                  <p className="text-gray-700">
+                    {post.description}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>     
+    
   )
 }
